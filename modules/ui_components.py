@@ -23,6 +23,8 @@ def initialize_session_state():
     """
     if "messages" not in st.session_state:
         st.session_state.messages = []
+    if "metadata_history" not in st.session_state:
+        st.session_state.metadata_history = []
 
     # if "enable_mcp" not in st.session_state:
     #     st.session_state.enable_mcp = False
@@ -104,6 +106,7 @@ def render_sidebar():
         if st.button("대화 초기화"):
             st.session_state.messages = []
             st.session_state.uploaded_files = {}
+            st.session_state.metadata_history = []
             st.rerun()
 
     return {
@@ -215,12 +218,19 @@ def render_file_upload_section():
 
 def render_chat_history():
     """채팅 기록을 렌더링합니다."""
+    from modules.api_client import display_metadata
+    metadata_history = st.session_state.get("metadata_history", [])
+    assistant_idx = 0
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             if isinstance(message["content"], str):
                 st.write(message["content"])
             elif isinstance(message["content"], list):
                 st.write(message["content"][0]["text"])
+            # assistant 메시지일 때 metadata 표시
+            if message["role"] == "assistant" and assistant_idx < len(metadata_history):
+                display_metadata(metadata_history[assistant_idx])
+                assistant_idx += 1
 
 
 def render_cancel_button():
