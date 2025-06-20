@@ -24,11 +24,11 @@ def initialize_session_state():
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    if "enable_mcp" not in st.session_state:
-        st.session_state.enable_mcp = False
+    # if "enable_mcp" not in st.session_state:
+    #     st.session_state.enable_mcp = False
 
-    if "mcp_servers" not in st.session_state:
-        st.session_state.mcp_servers = []
+    # if "mcp_servers" not in st.session_state:
+    #     st.session_state.mcp_servers = []
 
     if "generating" not in st.session_state:
         st.session_state.generating = False
@@ -95,7 +95,7 @@ def render_sidebar():
         st.session_state.system_message = system_message
 
         # MCP 서버 설정
-        render_mcp_settings()
+        # render_mcp_settings()
 
         # 대화 관리
         render_conversation_management()
