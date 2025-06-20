@@ -86,36 +86,37 @@ if prompt:
         ])
 
         # MCP 서버 설정
-        mcp_servers = []
-        for server in st.session_state.mcp_servers:
-            mcp_servers.append({"url": server})
+        # mcp_servers = []
+        # for server in st.session_state.mcp_servers:
+        #     mcp_servers.append({"url": server})
 
-        # 스트리밍 응답 처리
-        try:
-            # print(f"{messages}\n\n")
-            # 응답 생성
-            stream = perplexity_client.generate_stream_response(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                use_mcp=st.session_state.enable_mcp,
-                mcp_servers=mcp_servers if mcp_servers else None
-            )
+        with st.spinner("생각 중..."):
+            # 스트리밍 응답 처리
+            try:
+                # 응답 생성
+                stream = perplexity_client.generate_stream_response(
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    # use_mcp=st.session_state.enable_mcp,
+                    # mcp_servers=mcp_servers if mcp_servers else None
+                )
 
-            # 응답 처리 및 표시
-            full_response, metadata = process_stream_response(
-                stream,
-                message_placeholder,
-                lambda: st.session_state.cancel_generation
-            )
+                # 응답 처리 및 표시
+                full_response, metadata = process_stream_response(
+                    stream,
+                    message_placeholder,
+                    lambda: st.session_state.cancel_generation
+                )
 
-            # 메타데이터 표시
-            display_metadata(metadata)
+                # 메타데이터 표시
+                display_metadata(metadata)
+                st.session_state.metadata_history.append(metadata)
 
-        except Exception as e:
-            st.error(f"오류가 발생했습니다: {str(e)}")
-            raise e
+            except Exception as e:
+                st.error(f"오류가 발생했습니다: {str(e)}")
+                raise e
 
     # 생성 상태 해제
     st.session_state.generating = False
@@ -126,7 +127,7 @@ if prompt:
         st.session_state.messages.append({"role": "assistant", "content": full_response})
 
     # 페이지 새로고침
-    # st.rerun()
+    st.rerun()
 
 # 푸터
 st.markdown("---")
