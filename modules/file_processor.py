@@ -18,7 +18,7 @@ def process_file(file):
         file: 업로드된 파일 객체
 
     Returns:
-        dict: 처리된 파일 정보
+        tuple: (성공 여부(bool), 처리된 파일 정보(dict) 또는 오류 메시지(str))
     """
     file_type = file.type
     file_content = file.read()
@@ -104,7 +104,7 @@ def create_file_attachment_message(files):
         files (dict): 파일 정보 딕셔너리
 
     Returns:
-        str: 생성된 메시지
+        list: 메시지 객체 리스트 (텍스트 및 이미지 타입 포함)
     """
     if not files:
         return ""
@@ -128,16 +128,16 @@ def create_file_attachment_message(files):
 
 def save_conversation(filename, messages, model, system_message):
     """
-    대화 내용을 파일로 저장합니다.
+    대화 내용을 JSON 파일로 저장합니다.
 
     Args:
-        filename (str): 저장할 파일명
+        filename (str): 저장할 파일명 (확장자 생략 시 자동으로 .json 추가)
         messages (list): 대화 메시지 목록
         model (str): 사용한 모델 이름
         system_message (str): 시스템 메시지
 
     Returns:
-        str: 저장된 파일명
+        str: 저장된 파일명 (타임스탬프 포함)
     """
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     if not filename:
