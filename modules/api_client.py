@@ -101,7 +101,7 @@ class PerplexityClient:
 
     def use_async_api(self, messages, model, temperature, max_tokens):
         """
-        비동기 API를 사용하여 응답을 생성하는 함수
+        동기 API를 사용하여 응답을 생성하는 함수 (202 상태 코드 시 폴링 방식으로 결과 대기)
 
         Args:
             messages (list): 메시지 목록
@@ -110,7 +110,7 @@ class PerplexityClient:
             max_tokens (int): 최대 토큰 수
 
         Returns:
-            dict: API 응답
+            dict: API 응답 JSON
         """
         import time
 
@@ -262,7 +262,7 @@ def extract_references(text):
         text (str): 추출할 텍스트
 
     Returns:
-        list: 추출된 URL 목록
+        list: 중복 제거된 URL 집합을 포함한 리스트 (빈 리스트 또는 [set(urls)])
     """
     import re
 
@@ -274,10 +274,10 @@ def extract_references(text):
 
 def display_metadata(metadata):
     """
-    메타데이터를 UI에 표시합니다.
+    메타데이터를 Streamlit UI에 표시합니다 (토큰 사용량, 인용 정보, 참조 링크).
 
     Args:
-        metadata (dict): 표시할 메타데이터
+        metadata (dict): 표시할 메타데이터 (usage, citations, references 포함)
     """
     # 토큰 사용량 표시
     if metadata.get("usage"):
