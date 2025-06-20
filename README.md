@@ -1,6 +1,7 @@
-# Perplexity Sonar AI 챗봇
+# Perplexity Sonar AI 챗봇 (Experimental)
 
 Perplexity Sonar API를 활용한 스트리밍 방식의 AI 챗봇 애플리케이션입니다. Streamlit 프레임워크로 개발되었으며, 모듈화된 구조로 사용자 친화적인 인터페이스를 제공합니다.
+AI를 통한 바이브 코딩을 실험하기 위해 제작하였으며, 터미널용 Amazon Q를 통해 바이브 코딩으로 시작하여 디버깅 및 개선 작업은 GitHub Copilot 및 Perplexity를 병행한 것입니다.
 
 ## 주요 기능
 
